@@ -1340,7 +1340,10 @@ slots:
   genetically interacts with:
     is_a: interacts with
     description: >-
-      holds between two genes whose phenotypic effects are dependent on each other in some way - such that their combined phenotypic effects are the result of some interaction between the activity of their gene products. Examples include epistasis and synthetic lethality.
+      holds between two genes whose phenotypic effects are dependent on each
+      other in some way - such that their combined phenotypic effects are the
+      result of some interaction between the activity of their gene products.
+      Examples include epistasis and synthetic lethality.
     domain: gene
     range: gene
     in_subset:
@@ -4849,7 +4852,7 @@ classes:
     abstract: true
     description: >-
       An entity that has the role of being studied in an investigation, study, or experiment
-      
+
   material sample:
     aliases: ['biospecimen', 'sample', 'biosample', 'physical sample']
     is_a: physical entity
@@ -5842,7 +5845,8 @@ classes:
       - occurrent
     description: >-
       A series of actions conducted in a certain order or manner
-    mappings: # Procedures
+    mappings:
+      # Procedures
       - UMLSSG:PROC
       # Health Care Activity
       - UMLSSC:T058
@@ -5865,6 +5869,15 @@ classes:
       # Educational Activity
       - UMLSSC:T065
       - UMLSST:edac
+
+  study:
+    is_a: procedure
+    description: >-
+      a discrete
+    narrow_mappings:
+      # Research Activity
+      - UMLSSC:T062
+      - UMLSST:resa
 
   phenomenon:
     # can't inherit directly from mixin biolink:Occurrent
