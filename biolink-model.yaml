@@ -4262,11 +4262,10 @@ slots:
     exact_mappings:
       - RO:0002558
 
-  publications:
+  has publication:
     is_a: provenance slot
     singular_name: publication
     range: publication
-    multivalued: true
     description: >-
       connects an instance of provenance to an supporting instance of publication
 
