@@ -546,12 +546,10 @@ slots:
       a long-form human readable name for a thing
 
   description:
-    is_a: node property
     aliases: ['definition']
-    domain: named thing
     range: narrative text
     description: >-
-      a human-readable description of a thing
+      a human-readable description of an entity
     in_subset:
       - translator_minimal
     slot_uri: dcterms:description
@@ -4294,6 +4292,7 @@ classes:
       - iri
       - type
       - name
+      - description
       - source
       - provided by
 
@@ -4545,7 +4544,6 @@ organism taxon:
     description: >-
       a piece of information that typically describes some topic of discourse or is used as support.
     slots:
-      - description
       - license
       - rights
       - format
@@ -5436,7 +5434,6 @@ organism taxon:
     aliases: ['locus']
     slots:
       - symbol
-      - description
       - synonym
       - xref
     exact_mappings:
@@ -5468,7 +5465,6 @@ organism taxon:
       - protein
       - RNA product
     slots:
-      - description
       - synonym
       - xref
     exact_mappings:
