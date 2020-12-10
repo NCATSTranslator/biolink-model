@@ -1988,16 +1988,16 @@
       },
       "ChemicalToChemicalDerivationAssociation": {
          "additionalProperties": false,
-         "description": "A causal relationship between two chemical entities, where the subject represents the upstream entity and the object represents the downstream. For any such association there is an implicit reaction:\n  IF\n  R has-input C1 AND\n  R has-output C2 AND\n  R enabled-by P AND\n  R type Reaction\n  THEN\n  C1 derives-into C2 <<change is catalyzed by P>>",
+         "description": "A causal relationship between two chemical entities, where the subject represents the upstream entity and the object represents the downstream. For any such association there is an implicit reaction:\n  IF\n  R has-input C1 AND\n  R has-output C2 AND\n  R enabled-by P AND\n  R type Reaction\n  THEN\n  C1 derives-into C2 <<catalyst qualifier P>>",
          "properties": {
-            "category": {
+            "catalyst_qualifier": {
+               "description": "this connects the derivation edge to the molecular entity that catalyzes the reaction that causes the subject chemical to transform into the object chemical.",
                "items": {
                   "type": "string"
                },
                "type": "array"
             },
-            "change_is_catalyzed_by": {
-               "description": "this connects the derivation edge to the molecular entity that catalyzes the reaction that causes the subject chemical to transform into the object chemical",
+            "category": {
                "items": {
                   "type": "string"
                },
@@ -3269,6 +3269,99 @@
       },
       "DiseaseOrPhenotypicFeatureAssociationToLocationAssociation": {
          "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "category": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "description": {
+               "description": "a human-readable description of an entity",
+               "type": "string"
+            },
+            "has_attribute": {
+               "description": "connects any entity to an attribute",
+               "items": {
+                  "$ref": "#/definitions/Attribute"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "A unique identifier for an entity. Must be either a CURIE shorthand for a URI or a complete URI",
+               "type": "string"
+            },
+            "iri": {
+               "description": "An IRI for an entity. This is determined by the id using expansion rules.",
+               "type": "string"
+            },
+            "name": {
+               "description": "A human-readable name for an attribute or entity.",
+               "type": "string"
+            },
+            "negated": {
+               "description": "if set to true, then the association is negated i.e. is not true",
+               "type": "boolean"
+            },
+            "object": {
+               "type": "string"
+            },
+            "predicate": {
+               "description": "A high-level grouping for the relationship type. AKA minimal predicate. This is analogous to category for nodes.",
+               "type": "string"
+            },
+            "provided_by": {
+               "description": "connects an association to the agent (person, organization or group) that provided it",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "publications": {
+               "description": "connects an association to publications supporting the association",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "qualifiers": {
+               "description": "connects an association to qualifiers that modify or qualify the meaning of that association",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "relation": {
+               "description": "The relation which describes an association between a subject and an object in a more granular manner. Usually this is a term from Relation Ontology, but it can be any edge CURIE.",
+               "type": "string"
+            },
+            "source": {
+               "description": "a lightweight analog to the association class 'has provider' slot, which is the string name, or the authoritative (i.e. database) namespace, designating the origin of the entity to which the slot belongs.",
+               "type": "string"
+            },
+            "subject": {
+               "description": "connects an association to the subject of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.",
+               "type": "string"
+            },
+            "type": {
+               "description": "rdf:type of biolink:Association should be fixed at rdf:Statement",
+               "type": "string"
+            }
+         },
+         "required": [
+            "id",
+            "subject",
+            "predicate",
+            "relation",
+            "category",
+            "object"
+         ],
+         "title": "DiseaseOrPhenotypicFeatureAssociationToLocationAssociation",
+         "type": "object"
+      },
+      "DiseaseOrPhenotypicFeatureToLocationAssociation": {
+         "additionalProperties": false,
          "description": "An association between either a disease or a phenotypic feature and an anatomical entity, where the disease/feature manifests in that site.",
          "properties": {
             "category": {
@@ -3342,7 +3435,7 @@
                "type": "string"
             },
             "subject": {
-               "description": "disease or phenotype",
+               "description": "connects an association to the subject of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.",
                "type": "string"
             },
             "type": {
@@ -3352,13 +3445,13 @@
          },
          "required": [
             "id",
+            "subject",
             "predicate",
             "relation",
             "category",
-            "subject",
             "object"
          ],
-         "title": "DiseaseOrPhenotypicFeatureAssociationToLocationAssociation",
+         "title": "DiseaseOrPhenotypicFeatureToLocationAssociation",
          "type": "object"
       },
       "DiseaseToExposureAssociation": {
@@ -4606,6 +4699,31 @@
          "title": "GeneAsAModelOfDiseaseAssociation",
          "type": "object"
       },
+      "GeneExpressionMixin": {
+         "additionalProperties": false,
+         "description": "Observed gene expression intensity, context (site, stage) and associated phenotypic status within which the expression occurs.",
+         "properties": {
+            "expression_site": {
+               "description": "location in which gene or protein expression takes place. May be cell, tissue, or organ.",
+               "type": "string"
+            },
+            "phenotypic_state": {
+               "description": "in experiments (e.g. gene expression) assaying diseased or unhealthy tissue, the phenotypic state can be put here, e.g. MONDO ID. For healthy tissues, use XXX.",
+               "type": "string"
+            },
+            "quantifier_qualifier": {
+               "description": "Optional quantitative value indicating degree of expression.",
+               "type": "string"
+            },
+            "stage_qualifier": {
+               "description": "stage during which gene or protein expression of takes place.",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "GeneExpressionMixin",
+         "type": "object"
+      },
       "GeneFamily": {
          "additionalProperties": false,
          "description": "any grouping of multiple genes or gene products related by common descent",
@@ -5277,6 +5395,115 @@
             "predicate"
          ],
          "title": "GeneToExpressionSiteAssociation",
+         "type": "object"
+      },
+      "GeneToGeneCoexpressionAssociation": {
+         "additionalProperties": false,
+         "description": "Indicates that two genes are co-expressed, generally under the same conditions.",
+         "properties": {
+            "category": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "description": {
+               "description": "a human-readable description of an entity",
+               "type": "string"
+            },
+            "expression_site": {
+               "description": "location in which gene or protein expression takes place. May be cell, tissue, or organ.",
+               "type": "string"
+            },
+            "has_attribute": {
+               "description": "connects any entity to an attribute",
+               "items": {
+                  "$ref": "#/definitions/Attribute"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "A unique identifier for an entity. Must be either a CURIE shorthand for a URI or a complete URI",
+               "type": "string"
+            },
+            "iri": {
+               "description": "An IRI for an entity. This is determined by the id using expansion rules.",
+               "type": "string"
+            },
+            "name": {
+               "description": "A human-readable name for an attribute or entity.",
+               "type": "string"
+            },
+            "negated": {
+               "description": "if set to true, then the association is negated i.e. is not true",
+               "type": "boolean"
+            },
+            "object": {
+               "description": "the object gene in the association. If the relation is symmetric, subject vs object is arbitrary. We allow a gene product to stand as a proxy for the gene or vice versa.",
+               "type": "string"
+            },
+            "phenotypic_state": {
+               "description": "in experiments (e.g. gene expression) assaying diseased or unhealthy tissue, the phenotypic state can be put here, e.g. MONDO ID. For healthy tissues, use XXX.",
+               "type": "string"
+            },
+            "predicate": {
+               "type": "string"
+            },
+            "provided_by": {
+               "description": "connects an association to the agent (person, organization or group) that provided it",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "publications": {
+               "description": "connects an association to publications supporting the association",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "qualifiers": {
+               "description": "connects an association to qualifiers that modify or qualify the meaning of that association",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "quantifier_qualifier": {
+               "description": "Optional quantitative value indicating degree of expression.",
+               "type": "string"
+            },
+            "relation": {
+               "description": "The relation which describes an association between a subject and an object in a more granular manner. Usually this is a term from Relation Ontology, but it can be any edge CURIE.",
+               "type": "string"
+            },
+            "source": {
+               "description": "a lightweight analog to the association class 'has provider' slot, which is the string name, or the authoritative (i.e. database) namespace, designating the origin of the entity to which the slot belongs.",
+               "type": "string"
+            },
+            "stage_qualifier": {
+               "description": "stage during which gene or protein expression of takes place.",
+               "type": "string"
+            },
+            "subject": {
+               "description": "the subject gene in the association. If the relation is symmetric, subject vs object is arbitrary. We allow a gene product to stand as a proxy for the gene or vice versa.",
+               "type": "string"
+            },
+            "type": {
+               "description": "rdf:type of biolink:Association should be fixed at rdf:Statement",
+               "type": "string"
+            }
+         },
+         "required": [
+            "id",
+            "relation",
+            "category",
+            "subject",
+            "object",
+            "predicate"
+         ],
+         "title": "GeneToGeneCoexpressionAssociation",
          "type": "object"
       },
       "GeneToGeneHomologyAssociation": {
@@ -10924,6 +11151,206 @@
             "object"
          ],
          "title": "VariantToDiseaseAssociation",
+         "type": "object"
+      },
+      "VariantToGeneAssociation": {
+         "additionalProperties": false,
+         "description": "An association between a variant and a gene, where the variant has a genetic association with the gene (i.e. is in linkage disequilibrium)",
+         "properties": {
+            "category": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "description": {
+               "description": "a human-readable description of an entity",
+               "type": "string"
+            },
+            "has_attribute": {
+               "description": "connects any entity to an attribute",
+               "items": {
+                  "$ref": "#/definitions/Attribute"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "A unique identifier for an entity. Must be either a CURIE shorthand for a URI or a complete URI",
+               "type": "string"
+            },
+            "iri": {
+               "description": "An IRI for an entity. This is determined by the id using expansion rules.",
+               "type": "string"
+            },
+            "name": {
+               "description": "A human-readable name for an attribute or entity.",
+               "type": "string"
+            },
+            "negated": {
+               "description": "if set to true, then the association is negated i.e. is not true",
+               "type": "boolean"
+            },
+            "object": {
+               "type": "string"
+            },
+            "predicate": {
+               "type": "string"
+            },
+            "provided_by": {
+               "description": "connects an association to the agent (person, organization or group) that provided it",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "publications": {
+               "description": "connects an association to publications supporting the association",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "qualifiers": {
+               "description": "connects an association to qualifiers that modify or qualify the meaning of that association",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "relation": {
+               "description": "The relation which describes an association between a subject and an object in a more granular manner. Usually this is a term from Relation Ontology, but it can be any edge CURIE.",
+               "type": "string"
+            },
+            "source": {
+               "description": "a lightweight analog to the association class 'has provider' slot, which is the string name, or the authoritative (i.e. database) namespace, designating the origin of the entity to which the slot belongs.",
+               "type": "string"
+            },
+            "subject": {
+               "description": "connects an association to the subject of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.",
+               "type": "string"
+            },
+            "type": {
+               "description": "rdf:type of biolink:Association should be fixed at rdf:Statement",
+               "type": "string"
+            }
+         },
+         "required": [
+            "id",
+            "subject",
+            "relation",
+            "category",
+            "object",
+            "predicate"
+         ],
+         "title": "VariantToGeneAssociation",
+         "type": "object"
+      },
+      "VariantToGeneExpressionAssociation": {
+         "additionalProperties": false,
+         "description": "An association between a variant and expression of a gene (i.e. e-QTL)",
+         "properties": {
+            "category": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "description": {
+               "description": "a human-readable description of an entity",
+               "type": "string"
+            },
+            "expression_site": {
+               "description": "location in which gene or protein expression takes place. May be cell, tissue, or organ.",
+               "type": "string"
+            },
+            "has_attribute": {
+               "description": "connects any entity to an attribute",
+               "items": {
+                  "$ref": "#/definitions/Attribute"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "A unique identifier for an entity. Must be either a CURIE shorthand for a URI or a complete URI",
+               "type": "string"
+            },
+            "iri": {
+               "description": "An IRI for an entity. This is determined by the id using expansion rules.",
+               "type": "string"
+            },
+            "name": {
+               "description": "A human-readable name for an attribute or entity.",
+               "type": "string"
+            },
+            "negated": {
+               "description": "if set to true, then the association is negated i.e. is not true",
+               "type": "boolean"
+            },
+            "object": {
+               "type": "string"
+            },
+            "phenotypic_state": {
+               "description": "in experiments (e.g. gene expression) assaying diseased or unhealthy tissue, the phenotypic state can be put here, e.g. MONDO ID. For healthy tissues, use XXX.",
+               "type": "string"
+            },
+            "predicate": {
+               "type": "string"
+            },
+            "provided_by": {
+               "description": "connects an association to the agent (person, organization or group) that provided it",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "publications": {
+               "description": "connects an association to publications supporting the association",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "qualifiers": {
+               "description": "connects an association to qualifiers that modify or qualify the meaning of that association",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "quantifier_qualifier": {
+               "description": "Optional quantitative value indicating degree of expression.",
+               "type": "string"
+            },
+            "relation": {
+               "description": "The relation which describes an association between a subject and an object in a more granular manner. Usually this is a term from Relation Ontology, but it can be any edge CURIE.",
+               "type": "string"
+            },
+            "source": {
+               "description": "a lightweight analog to the association class 'has provider' slot, which is the string name, or the authoritative (i.e. database) namespace, designating the origin of the entity to which the slot belongs.",
+               "type": "string"
+            },
+            "stage_qualifier": {
+               "description": "stage during which gene or protein expression of takes place.",
+               "type": "string"
+            },
+            "subject": {
+               "description": "connects an association to the subject of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.",
+               "type": "string"
+            },
+            "type": {
+               "description": "rdf:type of biolink:Association should be fixed at rdf:Statement",
+               "type": "string"
+            }
+         },
+         "required": [
+            "id",
+            "subject",
+            "relation",
+            "category",
+            "object",
+            "predicate"
+         ],
+         "title": "VariantToGeneExpressionAssociation",
          "type": "object"
       },
       "VariantToPhenotypicFeatureAssociation": {

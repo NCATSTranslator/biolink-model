@@ -1,5 +1,5 @@
 # Auto generated from biolink-model.yaml by pythongen.py version: 0.4.0
-# Generation date: 2020-12-03 05:01
+# Generation date: 2020-12-10 01:17
 # Schema: Biolink-Model
 #
 # id: https://w3id.org/biolink/biolink-model
@@ -673,6 +673,10 @@ class GeneToGeneHomologyAssociationId(GeneToGeneAssociationId):
     pass
 
 
+class GeneToGeneCoexpressionAssociationId(GeneToGeneAssociationId):
+    pass
+
+
 class PairwiseGeneToGeneInteractionId(GeneToGeneAssociationId):
     pass
 
@@ -682,10 +686,6 @@ class PairwiseMolecularInteractionId(PairwiseGeneToGeneInteractionId):
 
 
 class CellLineToDiseaseOrPhenotypicFeatureAssociationId(AssociationId):
-    pass
-
-
-class ChemicalToThingAssociationId(AssociationId):
     pass
 
 
@@ -709,10 +709,6 @@ class ChemicalToGeneAssociationId(AssociationId):
     pass
 
 
-class MaterialSampleToThingAssociationId(AssociationId):
-    pass
-
-
 class MaterialSampleDerivationAssociationId(AssociationId):
     pass
 
@@ -725,11 +721,11 @@ class DiseaseToExposureAssociationId(AssociationId):
     pass
 
 
-class DiseaseOrPhenotypicFeatureAssociationToThingAssociationId(AssociationId):
+class DiseaseOrPhenotypicFeatureAssociationToLocationAssociationId(AssociationId):
     pass
 
 
-class DiseaseOrPhenotypicFeatureAssociationToLocationAssociationId(DiseaseOrPhenotypicFeatureAssociationToThingAssociationId):
+class DiseaseOrPhenotypicFeatureToLocationAssociationId(AssociationId):
     pass
 
 
@@ -754,6 +750,14 @@ class GeneToPhenotypicFeatureAssociationId(AssociationId):
 
 
 class GeneToDiseaseAssociationId(AssociationId):
+    pass
+
+
+class VariantToGeneAssociationId(AssociationId):
+    pass
+
+
+class VariantToGeneExpressionAssociationId(VariantToGeneAssociationId):
     pass
 
 
@@ -3508,6 +3512,79 @@ class GeneToGeneHomologyAssociation(GeneToGeneAssociation):
 
 
 @dataclass
+class GeneExpressionMixin(YAMLRoot):
+    """
+    Observed gene expression intensity, context (site, stage) and associated phenotypic status within which the
+    expression occurs.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = BIOLINK.GeneExpressionMixin
+    class_class_curie: ClassVar[str] = "biolink:GeneExpressionMixin"
+    class_name: ClassVar[str] = "gene expression mixin"
+    class_model_uri: ClassVar[URIRef] = BIOLINK.GeneExpressionMixin
+
+    quantifier_qualifier: Optional[Union[str, OntologyClassId]] = None
+    expression_site: Optional[Union[str, AnatomicalEntityId]] = None
+    stage_qualifier: Optional[Union[str, LifeStageId]] = None
+    phenotypic_state: Optional[Union[str, DiseaseOrPhenotypicFeatureId]] = None
+
+    def __post_init__(self, **kwargs: Dict[str, Any]):
+        if self.quantifier_qualifier is not None and not isinstance(self.quantifier_qualifier, OntologyClassId):
+            self.quantifier_qualifier = OntologyClassId(self.quantifier_qualifier)
+        if self.expression_site is not None and not isinstance(self.expression_site, AnatomicalEntityId):
+            self.expression_site = AnatomicalEntityId(self.expression_site)
+        if self.stage_qualifier is not None and not isinstance(self.stage_qualifier, LifeStageId):
+            self.stage_qualifier = LifeStageId(self.stage_qualifier)
+        if self.phenotypic_state is not None and not isinstance(self.phenotypic_state, DiseaseOrPhenotypicFeatureId):
+            self.phenotypic_state = DiseaseOrPhenotypicFeatureId(self.phenotypic_state)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class GeneToGeneCoexpressionAssociation(GeneToGeneAssociation):
+    """
+    Indicates that two genes are co-expressed, generally under the same conditions.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = BIOLINK.GeneToGeneCoexpressionAssociation
+    class_class_curie: ClassVar[str] = "biolink:GeneToGeneCoexpressionAssociation"
+    class_name: ClassVar[str] = "gene to gene coexpression association"
+    class_model_uri: ClassVar[URIRef] = BIOLINK.GeneToGeneCoexpressionAssociation
+
+    id: Union[str, GeneToGeneCoexpressionAssociationId] = None
+    relation: Union[str, URIorCURIE] = None
+    category: List[Union[str, AssociationId]] = empty_list()
+    subject: Union[str, GeneOrGeneProductId] = None
+    object: Union[str, GeneOrGeneProductId] = None
+    predicate: Union[str, PredicateType] = None
+    quantifier_qualifier: Optional[Union[str, OntologyClassId]] = None
+    expression_site: Optional[Union[str, AnatomicalEntityId]] = None
+    stage_qualifier: Optional[Union[str, LifeStageId]] = None
+    phenotypic_state: Optional[Union[str, DiseaseOrPhenotypicFeatureId]] = None
+
+    def __post_init__(self, **kwargs: Dict[str, Any]):
+        if self.id is None:
+            raise ValueError(f"id must be supplied")
+        if not isinstance(self.id, GeneToGeneCoexpressionAssociationId):
+            self.id = GeneToGeneCoexpressionAssociationId(self.id)
+        if self.predicate is None:
+            raise ValueError(f"predicate must be supplied")
+        if not isinstance(self.predicate, PredicateType):
+            self.predicate = PredicateType(self.predicate)
+        if self.quantifier_qualifier is not None and not isinstance(self.quantifier_qualifier, OntologyClassId):
+            self.quantifier_qualifier = OntologyClassId(self.quantifier_qualifier)
+        if self.expression_site is not None and not isinstance(self.expression_site, AnatomicalEntityId):
+            self.expression_site = AnatomicalEntityId(self.expression_site)
+        if self.stage_qualifier is not None and not isinstance(self.stage_qualifier, LifeStageId):
+            self.stage_qualifier = LifeStageId(self.stage_qualifier)
+        if self.phenotypic_state is not None and not isinstance(self.phenotypic_state, DiseaseOrPhenotypicFeatureId):
+            self.phenotypic_state = DiseaseOrPhenotypicFeatureId(self.phenotypic_state)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
 class PairwiseGeneToGeneInteraction(GeneToGeneAssociation):
     """
     An interaction between two genes or two gene products. May be physical (e.g. protein binding) or genetic (between
@@ -3622,33 +3699,6 @@ class CellLineToDiseaseOrPhenotypicFeatureAssociation(Association):
 
 
 @dataclass
-class ChemicalToThingAssociation(Association):
-    """
-    An interaction between a chemical entity and another entity
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = BIOLINK.ChemicalToThingAssociation
-    class_class_curie: ClassVar[str] = "biolink:ChemicalToThingAssociation"
-    class_name: ClassVar[str] = "chemical to thing association"
-    class_model_uri: ClassVar[URIRef] = BIOLINK.ChemicalToThingAssociation
-
-    id: Union[str, ChemicalToThingAssociationId] = None
-    predicate: Union[str, PredicateType] = None
-    object: Union[str, NamedThingId] = None
-    relation: Union[str, URIorCURIE] = None
-    category: List[Union[str, AssociationId]] = empty_list()
-    subject: Union[str, ChemicalSubstanceId] = None
-
-    def __post_init__(self, **kwargs: Dict[str, Any]):
-        if self.subject is None:
-            raise ValueError(f"subject must be supplied")
-        if not isinstance(self.subject, ChemicalSubstanceId):
-            self.subject = ChemicalSubstanceId(self.subject)
-        super().__post_init__(**kwargs)
-
-
-@dataclass
 class ChemicalToChemicalAssociation(Association):
     """
     A relationship between two chemical entities. This can encompass actual interactions as well as temporal causal
@@ -3691,7 +3741,7 @@ class ChemicalToChemicalDerivationAssociation(ChemicalToChemicalAssociation):
     R enabled-by P AND
     R type Reaction
     THEN
-    C1 derives-into C2 <<change is catalyzed by P>>
+    C1 derives-into C2 <<catalyst qualifier P>>
     """
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -3706,15 +3756,15 @@ class ChemicalToChemicalDerivationAssociation(ChemicalToChemicalAssociation):
     subject: Union[str, ChemicalSubstanceId] = None
     object: Union[str, ChemicalSubstanceId] = None
     predicate: Union[str, PredicateType] = None
-    change_is_catalyzed_by: List[Union[str, MacromolecularMachineId]] = empty_list()
+    catalyst_qualifier: List[Union[str, MacromolecularMachineId]] = empty_list()
 
     def __post_init__(self, **kwargs: Dict[str, Any]):
         if self.id is None:
             raise ValueError(f"id must be supplied")
         if not isinstance(self.id, ChemicalToChemicalDerivationAssociationId):
             self.id = ChemicalToChemicalDerivationAssociationId(self.id)
-        self.change_is_catalyzed_by = [v if isinstance(v, MacromolecularMachineId)
-                                       else MacromolecularMachineId(v) for v in ([self.change_is_catalyzed_by] if isinstance(self.change_is_catalyzed_by, str) else self.change_is_catalyzed_by)]
+        self.catalyst_qualifier = [v if isinstance(v, MacromolecularMachineId)
+                                   else MacromolecularMachineId(v) for v in ([self.catalyst_qualifier] if isinstance(self.catalyst_qualifier, str) else self.catalyst_qualifier)]
         if self.subject is None:
             raise ValueError(f"subject must be supplied")
         if not isinstance(self.subject, ChemicalSubstanceId):
@@ -3825,33 +3875,6 @@ class ChemicalToGeneAssociation(Association):
 
 
 @dataclass
-class MaterialSampleToThingAssociation(Association):
-    """
-    An association between a material sample and something.
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = BIOLINK.MaterialSampleToThingAssociation
-    class_class_curie: ClassVar[str] = "biolink:MaterialSampleToThingAssociation"
-    class_name: ClassVar[str] = "material sample to thing association"
-    class_model_uri: ClassVar[URIRef] = BIOLINK.MaterialSampleToThingAssociation
-
-    id: Union[str, MaterialSampleToThingAssociationId] = None
-    predicate: Union[str, PredicateType] = None
-    object: Union[str, NamedThingId] = None
-    relation: Union[str, URIorCURIE] = None
-    category: List[Union[str, AssociationId]] = empty_list()
-    subject: Union[str, MaterialSampleId] = None
-
-    def __post_init__(self, **kwargs: Dict[str, Any]):
-        if self.subject is None:
-            raise ValueError(f"subject must be supplied")
-        if not isinstance(self.subject, MaterialSampleId):
-            self.subject = MaterialSampleId(self.subject)
-        super().__post_init__(**kwargs)
-
-
-@dataclass
 class MaterialSampleDerivationAssociation(Association):
     """
     An association between a material sample and the material entity from which it is derived.
@@ -3953,35 +3976,7 @@ class DiseaseToExposureAssociation(Association):
 
 
 @dataclass
-class DiseaseOrPhenotypicFeatureAssociationToThingAssociation(Association):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = BIOLINK.DiseaseOrPhenotypicFeatureAssociationToThingAssociation
-    class_class_curie: ClassVar[str] = "biolink:DiseaseOrPhenotypicFeatureAssociationToThingAssociation"
-    class_name: ClassVar[str] = "disease or phenotypic feature association to thing association"
-    class_model_uri: ClassVar[URIRef] = BIOLINK.DiseaseOrPhenotypicFeatureAssociationToThingAssociation
-
-    id: Union[str, DiseaseOrPhenotypicFeatureAssociationToThingAssociationId] = None
-    predicate: Union[str, PredicateType] = None
-    object: Union[str, NamedThingId] = None
-    relation: Union[str, URIorCURIE] = None
-    category: List[Union[str, AssociationId]] = empty_list()
-    subject: Union[str, DiseaseOrPhenotypicFeatureId] = None
-
-    def __post_init__(self, **kwargs: Dict[str, Any]):
-        if self.subject is None:
-            raise ValueError(f"subject must be supplied")
-        if not isinstance(self.subject, DiseaseOrPhenotypicFeatureId):
-            self.subject = DiseaseOrPhenotypicFeatureId(self.subject)
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class DiseaseOrPhenotypicFeatureAssociationToLocationAssociation(DiseaseOrPhenotypicFeatureAssociationToThingAssociation):
-    """
-    An association between either a disease or a phenotypic feature and an anatomical entity, where the
-    disease/feature manifests in that site.
-    """
+class DiseaseOrPhenotypicFeatureAssociationToLocationAssociation(Association):
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = BIOLINK.DiseaseOrPhenotypicFeatureAssociationToLocationAssociation
@@ -3990,10 +3985,10 @@ class DiseaseOrPhenotypicFeatureAssociationToLocationAssociation(DiseaseOrPhenot
     class_model_uri: ClassVar[URIRef] = BIOLINK.DiseaseOrPhenotypicFeatureAssociationToLocationAssociation
 
     id: Union[str, DiseaseOrPhenotypicFeatureAssociationToLocationAssociationId] = None
+    subject: Union[str, NamedThingId] = None
     predicate: Union[str, PredicateType] = None
     relation: Union[str, URIorCURIE] = None
     category: List[Union[str, AssociationId]] = empty_list()
-    subject: Union[str, DiseaseOrPhenotypicFeatureId] = None
     object: Union[str, AnatomicalEntityId] = None
 
     def __post_init__(self, **kwargs: Dict[str, Any]):
@@ -4001,6 +3996,38 @@ class DiseaseOrPhenotypicFeatureAssociationToLocationAssociation(DiseaseOrPhenot
             raise ValueError(f"id must be supplied")
         if not isinstance(self.id, DiseaseOrPhenotypicFeatureAssociationToLocationAssociationId):
             self.id = DiseaseOrPhenotypicFeatureAssociationToLocationAssociationId(self.id)
+        if self.object is None:
+            raise ValueError(f"object must be supplied")
+        if not isinstance(self.object, AnatomicalEntityId):
+            self.object = AnatomicalEntityId(self.object)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class DiseaseOrPhenotypicFeatureToLocationAssociation(Association):
+    """
+    An association between either a disease or a phenotypic feature and an anatomical entity, where the
+    disease/feature manifests in that site.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = BIOLINK.DiseaseOrPhenotypicFeatureToLocationAssociation
+    class_class_curie: ClassVar[str] = "biolink:DiseaseOrPhenotypicFeatureToLocationAssociation"
+    class_name: ClassVar[str] = "disease or phenotypic feature to location association"
+    class_model_uri: ClassVar[URIRef] = BIOLINK.DiseaseOrPhenotypicFeatureToLocationAssociation
+
+    id: Union[str, DiseaseOrPhenotypicFeatureToLocationAssociationId] = None
+    subject: Union[str, NamedThingId] = None
+    predicate: Union[str, PredicateType] = None
+    relation: Union[str, URIorCURIE] = None
+    category: List[Union[str, AssociationId]] = empty_list()
+    object: Union[str, AnatomicalEntityId] = None
+
+    def __post_init__(self, **kwargs: Dict[str, Any]):
+        if self.id is None:
+            raise ValueError(f"id must be supplied")
+        if not isinstance(self.id, DiseaseOrPhenotypicFeatureToLocationAssociationId):
+            self.id = DiseaseOrPhenotypicFeatureToLocationAssociationId(self.id)
         if self.object is None:
             raise ValueError(f"object must be supplied")
         if not isinstance(self.object, AnatomicalEntityId):
@@ -4200,6 +4227,85 @@ class GeneToDiseaseAssociation(Association):
             raise ValueError(f"subject must be supplied")
         if not isinstance(self.subject, GeneOrGeneProductId):
             self.subject = GeneOrGeneProductId(self.subject)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class VariantToGeneAssociation(Association):
+    """
+    An association between a variant and a gene, where the variant has a genetic association with the gene (i.e. is in
+    linkage disequilibrium)
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = BIOLINK.VariantToGeneAssociation
+    class_class_curie: ClassVar[str] = "biolink:VariantToGeneAssociation"
+    class_name: ClassVar[str] = "variant to gene association"
+    class_model_uri: ClassVar[URIRef] = BIOLINK.VariantToGeneAssociation
+
+    id: Union[str, VariantToGeneAssociationId] = None
+    subject: Union[str, NamedThingId] = None
+    relation: Union[str, URIorCURIE] = None
+    category: List[Union[str, AssociationId]] = empty_list()
+    object: Union[str, GeneId] = None
+    predicate: Union[str, PredicateType] = None
+
+    def __post_init__(self, **kwargs: Dict[str, Any]):
+        if self.id is None:
+            raise ValueError(f"id must be supplied")
+        if not isinstance(self.id, VariantToGeneAssociationId):
+            self.id = VariantToGeneAssociationId(self.id)
+        if self.object is None:
+            raise ValueError(f"object must be supplied")
+        if not isinstance(self.object, GeneId):
+            self.object = GeneId(self.object)
+        if self.predicate is None:
+            raise ValueError(f"predicate must be supplied")
+        if not isinstance(self.predicate, PredicateType):
+            self.predicate = PredicateType(self.predicate)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class VariantToGeneExpressionAssociation(VariantToGeneAssociation):
+    """
+    An association between a variant and expression of a gene (i.e. e-QTL)
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = BIOLINK.VariantToGeneExpressionAssociation
+    class_class_curie: ClassVar[str] = "biolink:VariantToGeneExpressionAssociation"
+    class_name: ClassVar[str] = "variant to gene expression association"
+    class_model_uri: ClassVar[URIRef] = BIOLINK.VariantToGeneExpressionAssociation
+
+    id: Union[str, VariantToGeneExpressionAssociationId] = None
+    subject: Union[str, NamedThingId] = None
+    relation: Union[str, URIorCURIE] = None
+    category: List[Union[str, AssociationId]] = empty_list()
+    object: Union[str, GeneId] = None
+    predicate: Union[str, PredicateType] = None
+    quantifier_qualifier: Optional[Union[str, OntologyClassId]] = None
+    expression_site: Optional[Union[str, AnatomicalEntityId]] = None
+    stage_qualifier: Optional[Union[str, LifeStageId]] = None
+    phenotypic_state: Optional[Union[str, DiseaseOrPhenotypicFeatureId]] = None
+
+    def __post_init__(self, **kwargs: Dict[str, Any]):
+        if self.id is None:
+            raise ValueError(f"id must be supplied")
+        if not isinstance(self.id, VariantToGeneExpressionAssociationId):
+            self.id = VariantToGeneExpressionAssociationId(self.id)
+        if self.predicate is None:
+            raise ValueError(f"predicate must be supplied")
+        if not isinstance(self.predicate, PredicateType):
+            self.predicate = PredicateType(self.predicate)
+        if self.quantifier_qualifier is not None and not isinstance(self.quantifier_qualifier, OntologyClassId):
+            self.quantifier_qualifier = OntologyClassId(self.quantifier_qualifier)
+        if self.expression_site is not None and not isinstance(self.expression_site, AnatomicalEntityId):
+            self.expression_site = AnatomicalEntityId(self.expression_site)
+        if self.stage_qualifier is not None and not isinstance(self.stage_qualifier, LifeStageId):
+            self.stage_qualifier = LifeStageId(self.stage_qualifier)
+        if self.phenotypic_state is not None and not isinstance(self.phenotypic_state, DiseaseOrPhenotypicFeatureId):
+            self.phenotypic_state = DiseaseOrPhenotypicFeatureId(self.phenotypic_state)
         super().__post_init__(**kwargs)
 
 
@@ -5896,8 +6002,17 @@ slots.interacting_molecules_category = Slot(uri=BIOLINK.interacting_molecules_ca
 slots.quantifier_qualifier = Slot(uri=BIOLINK.quantifier_qualifier, name="quantifier qualifier", curie=BIOLINK.curie('quantifier_qualifier'),
                       model_uri=BIOLINK.quantifier_qualifier, domain=Association, range=Optional[Union[str, OntologyClassId]])
 
+slots.catalyst_qualifier = Slot(uri=BIOLINK.catalyst_qualifier, name="catalyst qualifier", curie=BIOLINK.curie('catalyst_qualifier'),
+                      model_uri=BIOLINK.catalyst_qualifier, domain=Association, range=List[Union[str, MacromolecularMachineId]])
+
+slots.expression_site = Slot(uri=BIOLINK.expression_site, name="expression site", curie=BIOLINK.curie('expression_site'),
+                      model_uri=BIOLINK.expression_site, domain=Association, range=Optional[Union[str, AnatomicalEntityId]])
+
 slots.stage_qualifier = Slot(uri=BIOLINK.stage_qualifier, name="stage qualifier", curie=BIOLINK.curie('stage_qualifier'),
                       model_uri=BIOLINK.stage_qualifier, domain=Association, range=Optional[Union[str, LifeStageId]])
+
+slots.phenotypic_state = Slot(uri=BIOLINK.phenotypic_state, name="phenotypic state", curie=BIOLINK.curie('phenotypic_state'),
+                      model_uri=BIOLINK.phenotypic_state, domain=Association, range=Optional[Union[str, DiseaseOrPhenotypicFeatureId]])
 
 slots.qualifiers = Slot(uri=BIOLINK.qualifiers, name="qualifiers", curie=BIOLINK.curie('qualifiers'),
                       model_uri=BIOLINK.qualifiers, domain=Association, range=List[Union[str, OntologyClassId]])
@@ -5922,9 +6037,6 @@ slots.sequence_variant_qualifier = Slot(uri=BIOLINK.sequence_variant_qualifier, 
 
 slots.publications = Slot(uri=BIOLINK.publications, name="publications", curie=BIOLINK.curie('publications'),
                       model_uri=BIOLINK.publications, domain=Association, range=List[Union[str, PublicationId]])
-
-slots.change_is_catalyzed_by = Slot(uri=BIOLINK.change_is_catalyzed_by, name="change is catalyzed by", curie=BIOLINK.curie('change_is_catalyzed_by'),
-                      model_uri=BIOLINK.change_is_catalyzed_by, domain=Association, range=List[Union[str, MacromolecularMachineId]])
 
 slots.sequence_localization_attribute = Slot(uri=BIOLINK.sequence_localization_attribute, name="sequence localization attribute", curie=BIOLINK.curie('sequence_localization_attribute'),
                       model_uri=BIOLINK.sequence_localization_attribute, domain=GenomicSequenceLocalization, range=Optional[str])
@@ -6085,6 +6197,12 @@ slots.gene_to_gene_association_object = Slot(uri=BIOLINK.object, name="gene to g
 slots.gene_to_gene_homology_association_predicate = Slot(uri=BIOLINK.predicate, name="gene to gene homology association_predicate", curie=BIOLINK.curie('predicate'),
                       model_uri=BIOLINK.gene_to_gene_homology_association_predicate, domain=GeneToGeneHomologyAssociation, range=Union[str, PredicateType])
 
+slots.gene_expression_mixin_quantifier_qualifier = Slot(uri=BIOLINK.quantifier_qualifier, name="gene expression mixin_quantifier qualifier", curie=BIOLINK.curie('quantifier_qualifier'),
+                      model_uri=BIOLINK.gene_expression_mixin_quantifier_qualifier, domain=GeneExpressionMixin, range=Optional[Union[str, OntologyClassId]])
+
+slots.gene_to_gene_coexpression_association_predicate = Slot(uri=BIOLINK.predicate, name="gene to gene coexpression association_predicate", curie=BIOLINK.curie('predicate'),
+                      model_uri=BIOLINK.gene_to_gene_coexpression_association_predicate, domain=GeneToGeneCoexpressionAssociation, range=Union[str, PredicateType])
+
 slots.pairwise_gene_to_gene_interaction_predicate = Slot(uri=BIOLINK.predicate, name="pairwise gene to gene interaction_predicate", curie=BIOLINK.curie('predicate'),
                       model_uri=BIOLINK.pairwise_gene_to_gene_interaction_predicate, domain=PairwiseGeneToGeneInteraction, range=Union[str, PredicateType])
 
@@ -6106,17 +6224,17 @@ slots.pairwise_molecular_interaction_relation = Slot(uri=BIOLINK.relation, name=
 slots.pairwise_molecular_interaction_object = Slot(uri=BIOLINK.object, name="pairwise molecular interaction_object", curie=BIOLINK.curie('object'),
                       model_uri=BIOLINK.pairwise_molecular_interaction_object, domain=PairwiseMolecularInteraction, range=Union[str, MolecularEntityId])
 
-slots.cell_line_to_thing_association_mixin_subject = Slot(uri=BIOLINK.subject, name="cell line to thing association mixin_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.cell_line_to_thing_association_mixin_subject, domain=None, range=Union[str, CellLineId])
+slots.cell_line_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="cell line to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.cell_line_to_entity_association_mixin_subject, domain=None, range=Union[str, CellLineId])
 
 slots.cell_line_to_disease_or_phenotypic_feature_association_subject = Slot(uri=BIOLINK.subject, name="cell line to disease or phenotypic feature association_subject", curie=BIOLINK.curie('subject'),
                       model_uri=BIOLINK.cell_line_to_disease_or_phenotypic_feature_association_subject, domain=CellLineToDiseaseOrPhenotypicFeatureAssociation, range=Union[str, DiseaseOrPhenotypicFeatureId])
 
-slots.chemical_to_thing_association_subject = Slot(uri=BIOLINK.subject, name="chemical to thing association_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.chemical_to_thing_association_subject, domain=ChemicalToThingAssociation, range=Union[str, ChemicalSubstanceId])
+slots.chemical_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="chemical to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.chemical_to_entity_association_mixin_subject, domain=None, range=Union[str, ChemicalSubstanceId])
 
-slots.case_to_thing_association_mixin_subject = Slot(uri=BIOLINK.subject, name="case to thing association mixin_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.case_to_thing_association_mixin_subject, domain=None, range=Union[str, CaseId])
+slots.case_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="case to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.case_to_entity_association_mixin_subject, domain=None, range=Union[str, CaseId])
 
 slots.chemical_to_chemical_association_object = Slot(uri=BIOLINK.object, name="chemical to chemical association_object", curie=BIOLINK.curie('object'),
                       model_uri=BIOLINK.chemical_to_chemical_association_object, domain=ChemicalToChemicalAssociation, range=Union[str, ChemicalSubstanceId])
@@ -6130,8 +6248,8 @@ slots.chemical_to_chemical_derivation_association_object = Slot(uri=BIOLINK.obje
 slots.chemical_to_chemical_derivation_association_predicate = Slot(uri=BIOLINK.predicate, name="chemical to chemical derivation association_predicate", curie=BIOLINK.curie('predicate'),
                       model_uri=BIOLINK.chemical_to_chemical_derivation_association_predicate, domain=ChemicalToChemicalDerivationAssociation, range=Union[str, PredicateType])
 
-slots.chemical_to_chemical_derivation_association_change_is_catalyzed_by = Slot(uri=BIOLINK.change_is_catalyzed_by, name="chemical to chemical derivation association_change is catalyzed by", curie=BIOLINK.curie('change_is_catalyzed_by'),
-                      model_uri=BIOLINK.chemical_to_chemical_derivation_association_change_is_catalyzed_by, domain=ChemicalToChemicalDerivationAssociation, range=List[Union[str, MacromolecularMachineId]])
+slots.chemical_to_chemical_derivation_association_catalyst_qualifier = Slot(uri=BIOLINK.catalyst_qualifier, name="chemical to chemical derivation association_catalyst qualifier", curie=BIOLINK.curie('catalyst_qualifier'),
+                      model_uri=BIOLINK.chemical_to_chemical_derivation_association_catalyst_qualifier, domain=ChemicalToChemicalDerivationAssociation, range=List[Union[str, MacromolecularMachineId]])
 
 slots.chemical_to_disease_or_phenotypic_feature_association_object = Slot(uri=BIOLINK.object, name="chemical to disease or phenotypic feature association_object", curie=BIOLINK.curie('object'),
                       model_uri=BIOLINK.chemical_to_disease_or_phenotypic_feature_association_object, domain=ChemicalToDiseaseOrPhenotypicFeatureAssociation, range=Union[str, DiseaseOrPhenotypicFeatureId])
@@ -6142,8 +6260,8 @@ slots.chemical_to_pathway_association_object = Slot(uri=BIOLINK.object, name="ch
 slots.chemical_to_gene_association_object = Slot(uri=BIOLINK.object, name="chemical to gene association_object", curie=BIOLINK.curie('object'),
                       model_uri=BIOLINK.chemical_to_gene_association_object, domain=ChemicalToGeneAssociation, range=Union[str, GeneOrGeneProductId])
 
-slots.material_sample_to_thing_association_subject = Slot(uri=BIOLINK.subject, name="material sample to thing association_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.material_sample_to_thing_association_subject, domain=MaterialSampleToThingAssociation, range=Union[str, MaterialSampleId])
+slots.material_sample_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="material sample to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.material_sample_to_entity_association_mixin_subject, domain=None, range=Union[str, MaterialSampleId])
 
 slots.material_sample_derivation_association_subject = Slot(uri=BIOLINK.subject, name="material sample derivation association_subject", curie=BIOLINK.curie('subject'),
                       model_uri=BIOLINK.material_sample_derivation_association_subject, domain=MaterialSampleDerivationAssociation, range=Union[str, MaterialSampleId])
@@ -6154,8 +6272,8 @@ slots.material_sample_derivation_association_object = Slot(uri=BIOLINK.object, n
 slots.material_sample_derivation_association_predicate = Slot(uri=BIOLINK.predicate, name="material sample derivation association_predicate", curie=BIOLINK.curie('predicate'),
                       model_uri=BIOLINK.material_sample_derivation_association_predicate, domain=MaterialSampleDerivationAssociation, range=Union[str, PredicateType])
 
-slots.disease_to_thing_association_mixin_subject = Slot(uri=BIOLINK.subject, name="disease to thing association mixin_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.disease_to_thing_association_mixin_subject, domain=None, range=Union[str, DiseaseId])
+slots.disease_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="disease to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.disease_to_entity_association_mixin_subject, domain=None, range=Union[str, DiseaseId])
 
 slots.disease_to_exposure_association_subject = Slot(uri=BIOLINK.subject, name="disease to exposure association_subject", curie=BIOLINK.curie('subject'),
                       model_uri=BIOLINK.disease_to_exposure_association_subject, domain=DiseaseToExposureAssociation, range=Union[str, DiseaseId])
@@ -6163,26 +6281,29 @@ slots.disease_to_exposure_association_subject = Slot(uri=BIOLINK.subject, name="
 slots.disease_to_exposure_association_object = Slot(uri=BIOLINK.object, name="disease to exposure association_object", curie=BIOLINK.curie('object'),
                       model_uri=BIOLINK.disease_to_exposure_association_object, domain=DiseaseToExposureAssociation, range=Union[str, ExposureEventId])
 
-slots.thing_to_phenotypic_feature_association_mixin_description = Slot(uri=BIOLINK.description, name="thing to phenotypic feature association mixin_description", curie=BIOLINK.curie('description'),
-                      model_uri=BIOLINK.thing_to_phenotypic_feature_association_mixin_description, domain=None, range=Optional[Union[str, NarrativeText]])
+slots.entity_to_phenotypic_feature_association_mixin_description = Slot(uri=BIOLINK.description, name="entity to phenotypic feature association mixin_description", curie=BIOLINK.curie('description'),
+                      model_uri=BIOLINK.entity_to_phenotypic_feature_association_mixin_description, domain=None, range=Optional[Union[str, NarrativeText]])
 
-slots.thing_to_phenotypic_feature_association_mixin_object = Slot(uri=BIOLINK.object, name="thing to phenotypic feature association mixin_object", curie=BIOLINK.curie('object'),
-                      model_uri=BIOLINK.thing_to_phenotypic_feature_association_mixin_object, domain=None, range=Union[str, PhenotypicFeatureId])
+slots.entity_to_phenotypic_feature_association_mixin_object = Slot(uri=BIOLINK.object, name="entity to phenotypic feature association mixin_object", curie=BIOLINK.curie('object'),
+                      model_uri=BIOLINK.entity_to_phenotypic_feature_association_mixin_object, domain=None, range=Union[str, PhenotypicFeatureId])
 
-slots.thing_to_disease_association_mixin_object = Slot(uri=BIOLINK.object, name="thing to disease association mixin_object", curie=BIOLINK.curie('object'),
-                      model_uri=BIOLINK.thing_to_disease_association_mixin_object, domain=None, range=Union[str, DiseaseId])
+slots.entity_to_disease_association_mixin_object = Slot(uri=BIOLINK.object, name="entity to disease association mixin_object", curie=BIOLINK.curie('object'),
+                      model_uri=BIOLINK.entity_to_disease_association_mixin_object, domain=None, range=Union[str, DiseaseId])
 
-slots.disease_or_phenotypic_feature_association_to_thing_association_subject = Slot(uri=BIOLINK.subject, name="disease or phenotypic feature association to thing association_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.disease_or_phenotypic_feature_association_to_thing_association_subject, domain=DiseaseOrPhenotypicFeatureAssociationToThingAssociation, range=Union[str, DiseaseOrPhenotypicFeatureId])
+slots.disease_or_phenotypic_feature_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="disease or phenotypic feature to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.disease_or_phenotypic_feature_to_entity_association_mixin_subject, domain=None, range=Union[str, DiseaseOrPhenotypicFeatureId])
 
 slots.disease_or_phenotypic_feature_association_to_location_association_object = Slot(uri=BIOLINK.object, name="disease or phenotypic feature association to location association_object", curie=BIOLINK.curie('object'),
                       model_uri=BIOLINK.disease_or_phenotypic_feature_association_to_location_association_object, domain=DiseaseOrPhenotypicFeatureAssociationToLocationAssociation, range=Union[str, AnatomicalEntityId])
 
-slots.thing_to_disease_or_phenotypic_feature_association_mixin_object = Slot(uri=BIOLINK.object, name="thing to disease or phenotypic feature association mixin_object", curie=BIOLINK.curie('object'),
-                      model_uri=BIOLINK.thing_to_disease_or_phenotypic_feature_association_mixin_object, domain=None, range=Union[str, DiseaseOrPhenotypicFeatureId])
+slots.disease_or_phenotypic_feature_to_location_association_object = Slot(uri=BIOLINK.object, name="disease or phenotypic feature to location association_object", curie=BIOLINK.curie('object'),
+                      model_uri=BIOLINK.disease_or_phenotypic_feature_to_location_association_object, domain=DiseaseOrPhenotypicFeatureToLocationAssociation, range=Union[str, AnatomicalEntityId])
 
-slots.genotype_to_thing_association_mixin_subject = Slot(uri=BIOLINK.subject, name="genotype to thing association mixin_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.genotype_to_thing_association_mixin_subject, domain=None, range=Union[str, GenotypeId])
+slots.entity_to_disease_or_phenotypic_feature_association_mixin_object = Slot(uri=BIOLINK.object, name="entity to disease or phenotypic feature association mixin_object", curie=BIOLINK.curie('object'),
+                      model_uri=BIOLINK.entity_to_disease_or_phenotypic_feature_association_mixin_object, domain=None, range=Union[str, DiseaseOrPhenotypicFeatureId])
+
+slots.genotype_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="genotype to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.genotype_to_entity_association_mixin_subject, domain=None, range=Union[str, GenotypeId])
 
 slots.genotype_to_phenotypic_feature_association_predicate = Slot(uri=BIOLINK.predicate, name="genotype to phenotypic feature association_predicate", curie=BIOLINK.curie('predicate'),
                       model_uri=BIOLINK.genotype_to_phenotypic_feature_association_predicate, domain=GenotypeToPhenotypicFeatureAssociation, range=Union[str, PredicateType])
@@ -6193,17 +6314,26 @@ slots.genotype_to_phenotypic_feature_association_subject = Slot(uri=BIOLINK.subj
 slots.exposure_event_to_phenotypic_feature_association_subject = Slot(uri=BIOLINK.subject, name="exposure event to phenotypic feature association_subject", curie=BIOLINK.curie('subject'),
                       model_uri=BIOLINK.exposure_event_to_phenotypic_feature_association_subject, domain=ExposureEventToPhenotypicFeatureAssociation, range=Union[str, ExposureEventId])
 
-slots.gene_to_thing_association_mixin_subject = Slot(uri=BIOLINK.subject, name="gene to thing association mixin_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.gene_to_thing_association_mixin_subject, domain=None, range=Union[str, GeneOrGeneProductId])
+slots.gene_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="gene to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.gene_to_entity_association_mixin_subject, domain=None, range=Union[str, GeneOrGeneProductId])
 
-slots.variant_to_thing_association_mixin_subject = Slot(uri=BIOLINK.subject, name="variant to thing association mixin_subject", curie=BIOLINK.curie('subject'),
-                      model_uri=BIOLINK.variant_to_thing_association_mixin_subject, domain=None, range=Union[str, SequenceVariantId])
+slots.variant_to_entity_association_mixin_subject = Slot(uri=BIOLINK.subject, name="variant to entity association mixin_subject", curie=BIOLINK.curie('subject'),
+                      model_uri=BIOLINK.variant_to_entity_association_mixin_subject, domain=None, range=Union[str, SequenceVariantId])
 
 slots.gene_to_phenotypic_feature_association_subject = Slot(uri=BIOLINK.subject, name="gene to phenotypic feature association_subject", curie=BIOLINK.curie('subject'),
                       model_uri=BIOLINK.gene_to_phenotypic_feature_association_subject, domain=GeneToPhenotypicFeatureAssociation, range=Union[str, GeneOrGeneProductId])
 
 slots.gene_to_disease_association_subject = Slot(uri=BIOLINK.subject, name="gene to disease association_subject", curie=BIOLINK.curie('subject'),
                       model_uri=BIOLINK.gene_to_disease_association_subject, domain=GeneToDiseaseAssociation, range=Union[str, GeneOrGeneProductId])
+
+slots.variant_to_gene_association_object = Slot(uri=BIOLINK.object, name="variant to gene association_object", curie=BIOLINK.curie('object'),
+                      model_uri=BIOLINK.variant_to_gene_association_object, domain=VariantToGeneAssociation, range=Union[str, GeneId])
+
+slots.variant_to_gene_association_predicate = Slot(uri=BIOLINK.predicate, name="variant to gene association_predicate", curie=BIOLINK.curie('predicate'),
+                      model_uri=BIOLINK.variant_to_gene_association_predicate, domain=VariantToGeneAssociation, range=Union[str, PredicateType])
+
+slots.variant_to_gene_expression_association_predicate = Slot(uri=BIOLINK.predicate, name="variant to gene expression association_predicate", curie=BIOLINK.curie('predicate'),
+                      model_uri=BIOLINK.variant_to_gene_expression_association_predicate, domain=VariantToGeneExpressionAssociation, range=Union[str, PredicateType])
 
 slots.variant_to_population_association_subject = Slot(uri=BIOLINK.subject, name="variant to population association_subject", curie=BIOLINK.curie('subject'),
                       model_uri=BIOLINK.variant_to_population_association_subject, domain=VariantToPopulationAssociation, range=Union[str, SequenceVariantId])
